@@ -1,10 +1,3 @@
-#ifndef ENGINE_TERMINAL_H
-#define ENGINE_TERMINAL_H
-
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/ioctl.h>
-
 #include "terminal.h"
 
 struct engine_terminal_size engine_terminal_getSize() {
@@ -20,4 +13,22 @@ struct engine_terminal_size engine_terminal_getSize() {
 //#include <signal.h>
 //signal(SIGWINCH, SIG_IGN);
 
-#endif
+void engine_terminal_style(int attr) {
+	printf("%c[%dm", ENGINE_TERMINAL_ESCAPE_BASE, attr);
+}
+
+void engine_terminal_clearScreen() {
+	printf("%cc", ENGINE_TERMINAL_ESCAPE_BASE);
+}
+
+void engine_terminal_cursorPosition(int x, int y) {
+	printf("%c[%d;%dH", ENGINE_TERMINAL_ESCAPE_BASE, x, y);
+}
+
+void engine_terminal_showCursor() {
+	printf("%c[25l", ENGINE_TERMINAL_ESCAPE_BASE);
+}
+
+void engine_terminal_hideCursor() {
+	printf("%c[25h", ENGINE_TERMINAL_ESCAPE_BASE);
+}
