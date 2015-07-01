@@ -1,4 +1,6 @@
+.DS_Store
 *.sublime-workspace
 *.sublime-project
-.DS_Store
+*.dSYM/
 ./bin/*
+
