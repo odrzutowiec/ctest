@@ -74,6 +74,7 @@ void engine_termianl_printCanvas(struct engine_terminal_canvas *canvas) {
 	engine_terminal_clearScreen();
 
 	struct engine_terminal_size ts = engine_terminal_getSize();
+
 	for (unsigned char ih=0; ih < (*canvas).size.h; ih++) {
 		if (ih >= ts.h) {
 			continue;
@@ -103,6 +104,7 @@ void engine_termianl_printCanvas(struct engine_terminal_canvas *canvas) {
 	}
 
 	engine_terminal_cursorPosition((struct engine_terminal_position) {0, 0});
+	engine_terminal_style(ENGINE_TERMINAL_STYLE_RESET);
 }
 
 void engine_termianl_applyCanvas(
@@ -121,7 +123,7 @@ void engine_termianl_applyCanvas(
 				continue;
 			}
 
-			unsigned short sourcePos = ((*source).size.w * ih) + iw;
+			unsigned short sourcePos = ((*source).size.w * (ih - position.y)) + (iw - position.x);
 			unsigned short targetPos =
 				(*target).size.w * ((ih - position.y) + targetPosition.y)
 				+ ((iw - position.x) + targetPosition.x);
@@ -138,7 +140,7 @@ void engine_termianl_applyCanvas(
 
 			wchar_t newCharacter = (*target).chaxels[targetPos].character;
 			if ((*source).chaxels[sourcePos].character != L'\0') {
-				newbgcolor = (*source).chaxels[sourcePos].character;
+				newCharacter = (*source).chaxels[sourcePos].character;
 			}
 
 			(*target).chaxels[targetPos] = (struct engine_terminal_chaxel) {

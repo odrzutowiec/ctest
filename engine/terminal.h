@@ -32,7 +32,7 @@
 #define ENGINE_TERMINAL_COLOR_CYAN 6
 #define	ENGINE_TERMINAL_COLOR_WHITE 7
 #define	ENGINE_TERMINAL_COLOR_DEFAULT 9
-#define	ENGINE_TERMINAL_COLOR_TRANSPARENT 999
+#define	ENGINE_TERMINAL_COLOR_TRANSPARENT 99
 
 typedef unsigned short engine_terminal_coord;
 typedef unsigned short engine_terminal_color;

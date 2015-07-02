@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <locale.h>
+#include <signal.h>
 #include "engine/terminal.h"
 
 int main() {
@@ -11,7 +12,7 @@ int main() {
 		(struct engine_terminal_size) {ts.w+10, 10},
 		(struct engine_terminal_position) {0, 0},
 		ENGINE_TERMINAL_COLOR_TRANSPARENT, ENGINE_TERMINAL_COLOR_GREEN,
-		L'\0', false, false, false
+		L'T', false, false, false
 	);
 
 	struct engine_terminal_canvas *canvas = engine_terminal_getNewCanvas(
@@ -34,6 +35,7 @@ int main() {
 
 	getchar();
 
+	engine_terminal_clearScreen();
 	engine_terminal_clearScreen();
 	return 0;
 }
