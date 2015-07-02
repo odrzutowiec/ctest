@@ -32,7 +32,7 @@
 #define ENGINE_TERMINAL_COLOR_CYAN 6
 #define	ENGINE_TERMINAL_COLOR_WHITE 7
 
-typedef unsigned char engine_terminal_coord;
+typedef int engine_terminal_coord;
 typedef unsigned char engine_terminal_color;
 
 struct engine_terminal_size {

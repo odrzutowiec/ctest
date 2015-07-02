@@ -17,6 +17,7 @@ void engine_terminal_style(unsigned char attr) {
 }
 
 void engine_terminal_clearScreen() {
+	// wprintf(L"%c[2J", ENGINE_TERMINAL_ESCAPE_BASE);//c
 	wprintf(L"%cc", ENGINE_TERMINAL_ESCAPE_BASE);//c
 }
 
@@ -70,14 +71,19 @@ void engine_terminal_freeCanvas(struct engine_terminal_canvas *canvas) {
 }
 
 void engine_termianl_printCanvas(struct engine_terminal_canvas *canvas) {
-
-	//engine_terminal_cursorPosition((struct engine_terminal_position) {0, 0});
+	engine_terminal_style(ENGINE_TERMINAL_STYLE_RESET);
+	engine_terminal_cursorPosition((struct engine_terminal_position) {0, 0});
+	engine_terminal_clearScreen();
 
 	for (unsigned char ih=0; ih < (*canvas).size.h; ih++) {
 		for (unsigned char iw=0; iw < (*canvas).size.w; iw++) {
 			unsigned short pos = ((*canvas).size.w * ih) + iw;
 			wprintf(L"%lc", (*canvas).chaxels[pos].character);
 		}
-		wprintf(L"\n");
+		// if (ih < (*canvas).size.h + 1) {
+		// 	wprintf(L"\n");
+		// }
 	}
+
+	engine_terminal_cursorPosition((struct engine_terminal_position) {0, 0});
 }
