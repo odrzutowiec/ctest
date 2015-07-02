@@ -78,5 +78,12 @@ struct engine_terminal_canvas *engine_terminal_getNewCanvas(
 
 void engine_terminal_freeCanvas(struct engine_terminal_canvas *canvas);
 void engine_termianl_printCanvas(struct engine_terminal_canvas *canvas);
+void engine_termianl_applyCanvas(
+	struct engine_terminal_canvas *source,
+	struct engine_terminal_canvas *target,
+	struct engine_terminal_position position,
+	struct engine_terminal_size size,
+	struct engine_terminal_position targetPosition
+);
 
 #endif

@@ -106,3 +106,41 @@ void engine_termianl_printCanvas(struct engine_terminal_canvas *canvas) {
 
 	engine_terminal_cursorPosition((struct engine_terminal_position) {0, 0});
 }
+
+void engine_termianl_applyCanvas(
+	struct engine_terminal_canvas *source,
+	struct engine_terminal_canvas *target,
+	struct engine_terminal_position position,
+	struct engine_terminal_size size,
+	struct engine_terminal_position targetPosition
+) {
+	for (unsigned char ih=position.y; ih < size.h; ih++) {
+		if (ih >= (*target).size.h + targetPosition.y) {
+			continue;
+		}
+		for (unsigned char iw=position.x; iw < size.w; iw++) {
+			if (iw >= (*target).size.w + targetPosition.x) {
+				continue;
+			}
+
+			unsigned short sourcePos = ((*source).size.w * ih) + iw;
+			unsigned short targetPos =
+				(*target).size.w * ((ih - position.y) + targetPosition.y)
+				+ ((iw - position.x) + targetPosition.x);
+
+			(*target).chaxels[targetPos] = (struct engine_terminal_chaxel) {
+				(*source).chaxels[sourcePos].bgtrans,
+				(*source).chaxels[sourcePos].fgtrans,
+				(*source).chaxels[sourcePos].bgcolor,
+				(*source).chaxels[sourcePos].fgcolor,
+				(*source).chaxels[sourcePos].character,
+				(*source).chaxels[sourcePos].bold,
+				(*source).chaxels[sourcePos].underline,
+				(*source).chaxels[sourcePos].blink
+			};
+		}
+	}
+}
+
+
+
