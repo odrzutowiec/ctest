@@ -11,7 +11,7 @@ int main() {
 		(struct engine_terminal_size) {ts.w, ts.h},
 		(struct engine_terminal_position) {0, 0},
 		false, false,
-		ENGINE_TERMINAL_COLOR_WHITE, ENGINE_TERMINAL_COLOR_GREEN,
+		ENGINE_TERMINAL_COLOR_BLACK, ENGINE_TERMINAL_COLOR_GREEN,
 		L'.', false, false, false
 	);
 

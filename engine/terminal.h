@@ -31,6 +31,7 @@
 #define ENGINE_TERMINAL_COLOR_MAGENTA 5
 #define ENGINE_TERMINAL_COLOR_CYAN 6
 #define	ENGINE_TERMINAL_COLOR_WHITE 7
+#define	ENGINE_TERMINAL_COLOR_DEFAULT 9
 
 typedef int engine_terminal_coord;
 typedef unsigned char engine_terminal_color;
