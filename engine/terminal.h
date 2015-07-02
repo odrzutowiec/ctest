@@ -32,9 +32,10 @@
 #define ENGINE_TERMINAL_COLOR_CYAN 6
 #define	ENGINE_TERMINAL_COLOR_WHITE 7
 #define	ENGINE_TERMINAL_COLOR_DEFAULT 9
+#define	ENGINE_TERMINAL_COLOR_TRANSPARENT 999
 
-typedef int engine_terminal_coord;
-typedef unsigned char engine_terminal_color;
+typedef unsigned short engine_terminal_coord;
+typedef unsigned short engine_terminal_color;
 
 struct engine_terminal_size {
 	engine_terminal_coord w;
@@ -47,7 +48,6 @@ struct engine_terminal_position {
 };
 
 struct engine_terminal_chaxel {
-	bool bgtrans, fgtrans;
 	engine_terminal_color bgcolor, fgcolor;
 	wchar_t character;
 	bool bold, underline, blink;
@@ -69,7 +69,6 @@ void engine_terminal_hideCursor();
 struct engine_terminal_canvas *engine_terminal_getNewCanvas(
 	struct engine_terminal_size size,
 	struct engine_terminal_position position,
-	bool bgtrans, bool fgtrans,
 	engine_terminal_color bgcolor,
 	engine_terminal_color fgcolor,
 	wchar_t character,

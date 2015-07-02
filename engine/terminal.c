@@ -36,7 +36,6 @@ void engine_terminal_hideCursor() {
 struct engine_terminal_canvas *engine_terminal_getNewCanvas(
 	struct engine_terminal_size size,
 	struct engine_terminal_position position,
-	bool bgtrans, bool fgtrans,
 	engine_terminal_color bgcolor,
 	engine_terminal_color fgcolor,
 	wchar_t character,
@@ -49,7 +48,6 @@ struct engine_terminal_canvas *engine_terminal_getNewCanvas(
 
 	for (unsigned short i = 0; i < numOfChax; i++) {
 		chaxels[i] = (struct engine_terminal_chaxel) {
-			bgtrans, fgtrans,
 			bgcolor, fgcolor,
 			character,
 			bold, underline, blink
@@ -128,12 +126,25 @@ void engine_termianl_applyCanvas(
 				(*target).size.w * ((ih - position.y) + targetPosition.y)
 				+ ((iw - position.x) + targetPosition.x);
 
+			engine_terminal_color newfgcolor = (*target).chaxels[targetPos].fgcolor;
+			if ((*source).chaxels[sourcePos].fgcolor != ENGINE_TERMINAL_COLOR_TRANSPARENT) {
+				newfgcolor = (*source).chaxels[sourcePos].fgcolor;
+			}
+
+			engine_terminal_color newbgcolor = (*target).chaxels[targetPos].bgcolor;
+			if ((*source).chaxels[sourcePos].bgcolor != ENGINE_TERMINAL_COLOR_TRANSPARENT) {
+				newbgcolor = (*source).chaxels[sourcePos].bgcolor;
+			}
+
+			wchar_t newCharacter = (*target).chaxels[targetPos].character;
+			if ((*source).chaxels[sourcePos].character != L'\0') {
+				newbgcolor = (*source).chaxels[sourcePos].character;
+			}
+
 			(*target).chaxels[targetPos] = (struct engine_terminal_chaxel) {
-				(*source).chaxels[sourcePos].bgtrans,
-				(*source).chaxels[sourcePos].fgtrans,
-				(*source).chaxels[sourcePos].bgcolor,
-				(*source).chaxels[sourcePos].fgcolor,
-				(*source).chaxels[sourcePos].character,
+				newbgcolor,
+				newfgcolor,
+				newCharacter,
 				(*source).chaxels[sourcePos].bold,
 				(*source).chaxels[sourcePos].underline,
 				(*source).chaxels[sourcePos].blink
