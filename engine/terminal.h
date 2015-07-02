@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 #include <wchar.h>
+#include <locale.h>
 
 #define ENGINE_TERMINAL_ESCAPE_BASE 0x1B
 
@@ -75,5 +76,6 @@ struct engine_terminal_canvas *engine_terminal_getNewCanvas(
 );
 
 void engine_terminal_freeCanvas(struct engine_terminal_canvas *canvas);
+void engine_termianl_printCanvas(struct engine_terminal_canvas *canvas);
 
 #endif

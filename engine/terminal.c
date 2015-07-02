@@ -13,23 +13,23 @@ struct engine_terminal_size engine_terminal_getSize() {
 //signal(SIGWINCH, SIG_IGN);
 
 void engine_terminal_style(unsigned char attr) {
-	printf("%c[%dm", ENGINE_TERMINAL_ESCAPE_BASE, attr);
+	wprintf(L"%c[%dm", ENGINE_TERMINAL_ESCAPE_BASE, attr);
 }
 
 void engine_terminal_clearScreen() {
-	printf("%cc", ENGINE_TERMINAL_ESCAPE_BASE);
+	wprintf(L"%cc", ENGINE_TERMINAL_ESCAPE_BASE);//c
 }
 
 void engine_terminal_cursorPosition(struct engine_terminal_position position) {
-	printf("%c[%d;%dH", ENGINE_TERMINAL_ESCAPE_BASE, position.x, position.y);
+	wprintf(L"%c[%d;%df", ENGINE_TERMINAL_ESCAPE_BASE, position.x, position.y);
 }
 
 void engine_terminal_showCursor() {
-	printf("%c[25l", ENGINE_TERMINAL_ESCAPE_BASE);
+	wprintf(L"%c[25l", ENGINE_TERMINAL_ESCAPE_BASE);
 }
 
 void engine_terminal_hideCursor() {
-	printf("%c[25h", ENGINE_TERMINAL_ESCAPE_BASE);
+	wprintf(L"%c[25h", ENGINE_TERMINAL_ESCAPE_BASE);
 }
 
 struct engine_terminal_canvas *engine_terminal_getNewCanvas(
@@ -67,4 +67,17 @@ struct engine_terminal_canvas *engine_terminal_getNewCanvas(
 void engine_terminal_freeCanvas(struct engine_terminal_canvas *canvas) {
 	free((*canvas).chaxels);
 	free(canvas);
+}
+
+void engine_termianl_printCanvas(struct engine_terminal_canvas *canvas) {
+
+	//engine_terminal_cursorPosition((struct engine_terminal_position) {0, 0});
+
+	for (unsigned char ih=0; ih < (*canvas).size.h; ih++) {
+		for (unsigned char iw=0; iw < (*canvas).size.w; iw++) {
+			unsigned short pos = ((*canvas).size.w * ih) + iw;
+			wprintf(L"%lc", (*canvas).chaxels[pos].character);
+		}
+		wprintf(L"\n");
+	}
 }
