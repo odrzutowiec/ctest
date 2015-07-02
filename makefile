@@ -1,3 +1,3 @@
 build_test:
-	cc -Wall main.c engine/*.c -o bin/test
-	@echo "-- RUNNING --"
+	cc -Wall -g -std=c99 main.c engine/*.c -o bin/test
+	@echo "-- COMPILED --"

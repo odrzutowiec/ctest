@@ -1,9 +1,12 @@
 #ifndef ENGINE_TERMINAL_H
 #define ENGINE_TERMINAL_H
 
+#include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include <wchar.h>
 
 #define ENGINE_TERMINAL_ESCAPE_BASE 0x1B
 
@@ -28,16 +31,49 @@
 #define ENGINE_TERMINAL_COLOR_CYAN 6
 #define	ENGINE_TERMINAL_COLOR_WHITE 7
 
+typedef unsigned char engine_terminal_coord;
+typedef unsigned char engine_terminal_color;
+
 struct engine_terminal_size {
-	unsigned short col;
-	unsigned short row;
+	engine_terminal_coord w;
+	engine_terminal_coord h;
+};
+
+struct engine_terminal_position {
+	engine_terminal_coord x;
+	engine_terminal_coord y;
+};
+
+struct engine_terminal_chaxel {
+	bool bgtrans, fgtrans;
+	engine_terminal_color bgcolor, fgcolor;
+	wchar_t character;
+	bool bold, underline, blink;
+};
+
+struct engine_terminal_canvas {
+	struct engine_terminal_size size;
+	struct engine_terminal_position position;
+	struct engine_terminal_chaxel *chaxels;
 };
 
 struct engine_terminal_size engine_terminal_getSize();
-void engine_terminal_style(int attr);
+void engine_terminal_style(unsigned char attr);
 void engine_terminal_clearScreen();
-void engine_terminal_cursorPosition(int x, int y);
+void engine_terminal_cursorPosition(struct engine_terminal_position position);
 void engine_terminal_showCursor();
 void engine_terminal_hideCursor();
+
+struct engine_terminal_canvas *engine_terminal_getNewCanvas(
+	struct engine_terminal_size size,
+	struct engine_terminal_position position,
+	bool bgtrans, bool fgtrans,
+	engine_terminal_color bgcolor,
+	engine_terminal_color fgcolor,
+	wchar_t character,
+	bool bold, bool underline, bool blink
+);
+
+void engine_terminal_freeCanvas(struct engine_terminal_canvas *canvas);
 
 #endif
